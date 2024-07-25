@@ -38,9 +38,23 @@ class BERTSentimentClassifier(nn.Module):
         self.drop = nn.Dropout(p = drop_out)
         #Extra neuron layer for text classification
         self.relu = nn.ReLU()
+        # Linear layer with as many input neurons as BERT network has output neurons
+        # Number of output neurons is equal to one for binary classification
+        self.linear = nn.Linear(self.bert.config.hidden_size, number_classes)
         #It has as many input neurons as BERT network has output neurons
         #Number of output neurons is equal to number of possible classifications
-        self.sigmoid = nn.Sigmoid(self.bert.config.hidden_size, number_classes)
+        self.sigmoid = nn.Sigmoid()
+
+        #Ensure the newly added layers require gradients
+        if transfer_learning:
+            for param in self.drop.parameters():
+                param.requires_grad = True
+            for param in self.relu.parameters():
+                param.requires_grad = True
+            for param in self.linear.parameters():
+                param.requires_grad = True
+            for param in self.sigmoid.parameters():
+                param.requires_grad = True
 
 
     def forward(self, input_ids, attention_mask):
@@ -68,8 +82,11 @@ class BERTSentimentClassifier(nn.Module):
         #Pass through ReLU activation
         relu_output = self.relu(drop_output)
 
+        #Pass through the linear layer
+        linear_output = self.linear(relu_output)
+
         #Output vector of drop layer is passed as input data to linear layer and final classification is obtained
-        output = self.sigmoid(relu_output)
+        output = self.sigmoid(linear_output)
 
         #Final classification calculated by passing through all layers of model is returned
         return output

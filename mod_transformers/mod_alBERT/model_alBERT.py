@@ -38,9 +38,12 @@ class AlBERTSentimentClassifier(nn.Module):
         self.drop = nn.Dropout(p = drop_out)
         #Extra neuron layer for text classification
         self.relu = nn.ReLU()
-        #It has as many input neurons as AlBERT network has output neurons
+        # Linear layer with as many input neurons as BERT network has output neurons
+        # Number of output neurons is equal to one for binary classification
+        self.linear = nn.Linear(self.bert.config.hidden_size, number_classes)
+        #It has as many input neurons as BERT network has output neurons
         #Number of output neurons is equal to number of possible classifications
-        self.sigmoid = nn.Sigmoid(self.albert.config.hidden_size,number_classes)
+        self.sigmoid = nn.Sigmoid()
 
 
     def forward(self, input_ids, attention_mask):

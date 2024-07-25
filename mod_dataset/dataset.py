@@ -95,7 +95,7 @@ class Dataset:
             'text': text, #Raw input text
             'input_ids': encoding['input_ids'].flatten(), #Numeric input tokens and special tokens
             'attention_mask': encoding['attention_mask'].flatten(), #Attention mask
-            'text_clasification': torch.tensor(text_clasification, dtype=torch.long) #Category to which the text belongs
+            'text_clasification': torch.tensor(text_clasification, dtype=torch.float) #Category to which the text belongs
         }
 
 

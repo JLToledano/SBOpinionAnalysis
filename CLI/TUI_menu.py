@@ -222,9 +222,9 @@ def help_menu():
     + """\n""" +
     """La extensión del archivo deberá ser .csv y con el siguiente formato de mensajes:\n"""
     + """\n""" +
-    """             [required_parameter]Número del mensaje[/required_parameter],[required_parameter]"Texto a analizar entre comillas dobles"[/required_parameter],[required_parameter]clasificación[/required_parameter]\n"""
+    """             [required_parameter]"Texto a analizar entre comillas dobles"[/required_parameter],[required_parameter]clasificación[/required_parameter]\n"""
     + """\n""" +
-    """La clasificación deberá ser: [option]suicide[/option] o [option]non-suicide[/option]. El texto a analizar puede tener varios párrafos separados por retorno de carro."""
+    """La clasificación deberá ser: [option]Change[/option] o [option]Non-Change[/option]. El texto a analizar puede tener varios párrafos separados por retorno de carro."""
     )
     console.print(fifth_option_table)
 
