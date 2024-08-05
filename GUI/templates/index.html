@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>Menú Principal</h1>
+    </header>
+    <nav class="navbar">
+        <ul>
+            <li><a href="/configure">Configurar Parámetros</a></li>
+            <li><a href="/dataset">Configurar Dataset</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div class="main-content">
+            <div class="card">
+                <h2>Configurar Parámetros</h2>
+                <p>Configure los parámetros de la aplicación.</p>
+                <a href="/configure" class="button">Ir a Configuración</a>
+            </div>
+            <div class="card">
+                <h2>Configurar Dataset</h2>
+                <p>Configure el nombre del dataset.</p>
+                <a href="/dataset" class="button">Ir a Dataset</a>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2024 SBOpinionAnalysis</p>
+    </footer>
+</body>
+</html>
