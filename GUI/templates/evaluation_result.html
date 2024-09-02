@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
+    <title>Resultado de Evaluación</title> <!-- Page title displayed in the browser tab -->
+    <!-- Link to the base stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
+</head>
+<body>
+    <!-- Header section with main title -->
+    <header class="header">
+        <h1>Resultado de la Evaluación</h1> <!-- Main heading of the page -->
+    </header>
+
+    <!-- Container for evaluation metrics -->
+    <div class="metric-container">
+        <h2>Métricas de Evaluación</h2> <!-- Subheading for metrics section -->
+        <h3>Tiempo de Evaluación: {{ evaluation_time }} segundos</h3> <!-- Display evaluation time -->
+
+        <!-- Table for displaying evaluation metrics -->
+        <table border="1">
+            <tr>
+                <!-- Confusion matrix section -->
+                <td>
+                    <h4>Matriz de Confusión</h4>
+                    <table border="1">
+                        <tr>
+                            <th></th>
+                            <th>Predicho Negativo</th> <!-- Header for predicted negative outcomes -->
+                            <th>Predicho Positivo</th> <!-- Header for predicted positive outcomes -->
+                        </tr>
+                        <tr>
+                            <th>Real Negativo</th> <!-- Actual negative outcomes -->
+                            <td>{{ cm[0][0] }}</td> <!-- True Negative -->
+                            <td>{{ cm[0][1] }}</td> <!-- False Positive -->
+                        </tr>
+                        <tr>
+                            <th>Real Positivo</th> <!-- Actual positive outcomes -->
+                            <td>{{ cm[1][0] }}</td> <!-- False Negative -->
+                            <td>{{ cm[1][1] }}</td> <!-- True Positive -->
+                        </tr>
+                    </table>
+                </td>
+                <!-- Other evaluation metrics section -->
+                <td>
+                    <h4>Otras Métricas</h4>
+                    <table border="1">
+                        <tr>
+                            <th>Precisión</th> <!-- Precision metric -->
+                            <td>{{ accuracy }}</td>
+                        </tr>
+                        <tr>
+                            <th>Recall</th> <!-- Recall metric -->
+                            <td>{{ recall }}</td>
+                        </tr>
+                        <tr>
+                            <th>Precisión (Precision)</th> <!-- Precision metric -->
+                            <td>{{ precision }}</td>
+                        </tr>
+                        <tr>
+                            <th>F1 Score</th> <!-- F1 Score metric -->
+                            <td>{{ f1 }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Link to return to main menu -->
+    <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>
+    
+    <!-- Footer section -->
+    <footer class="footer">
+        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
+    </footer>
+</body>
+</html>

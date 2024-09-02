@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
+    <title>Métricas de Entrenamiento</title> <!-- Page title displayed in the browser tab -->
+    <!-- Link to the base stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
+</head>
+<body>
+    <!-- Header section with main title -->
+    <header class="header">
+        <h1>Resultado del Entrenamiento</h1> <!-- Main heading of the page -->
+    </header>
+
+    <!-- Subheading for metrics section -->
+    <h2>Métricas de Entrenamiento</h2>
+
+    <!-- Loop through metrics for each epoch -->
+    {% for metrics in epoch_metrics %}
+    <div class="metric-container">
+        <!-- Display epoch number -->
+        <h3>Época {{ loop.index }}</h3>
+        <!-- Display training time for the epoch -->
+        <h4>Tiempo de Entrenamiento: {{ metrics.training_time }} segundos</h4>
+        
+        <!-- Table displaying confusion matrix and other metrics -->
+        <table border="1">
+            <tr>
+                <td>
+                    <!-- Confusion Matrix Section -->
+                    <h4>Matriz de Confusión</h4>
+                    <table border="1">
+                        <tr>
+                            <th></th>
+                            <th>Predicho Negativo</th> <!-- Predicted Negative column -->
+                            <th>Predicho Positivo</th> <!-- Predicted Positive column -->
+                        </tr>
+                        <tr>
+                            <th>Real Negativo</th> <!-- Actual Negative row -->
+                            <td>{{ metrics.cm[0][0] }}</td> <!-- True Negative value -->
+                            <td>{{ metrics.cm[0][1] }}</td> <!-- False Positive value -->
+                        </tr>
+                        <tr>
+                            <th>Real Positivo</th> <!-- Actual Positive row -->
+                            <td>{{ metrics.cm[1][0] }}</td> <!-- False Negative value -->
+                            <td>{{ metrics.cm[1][1] }}</td> <!-- True Positive value -->
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <!-- Other Metrics Section -->
+                    <h4>Otras Métricas</h4>
+                    <table border="1">
+                        <tr>
+                            <th>Precisión</th> <!-- Accuracy metric -->
+                            <td>{{ metrics.accuracy }}</td>
+                        </tr>
+                        <tr>
+                            <th>Recall</th> <!-- Recall metric -->
+                            <td>{{ metrics.recall }}</td>
+                        </tr>
+                        <tr>
+                            <th>Precisión (Precision)</th> <!-- Precision metric -->
+                            <td>{{ metrics.precision }}</td>
+                        </tr>
+                        <tr>
+                            <th>F1 Score</th> <!-- F1 Score metric -->
+                            <td>{{ metrics.f1 }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% endfor %} <!-- End of loop through epochs -->
+
+    <!-- Link to return to main menu -->
+    <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>
+
+    <!-- Footer section -->
+    <footer class="footer">
+        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
+    </footer>
+</body>
+</html>

@@ -1,36 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurar Parámetros</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="UTF-8"> <!-- Set character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
+    <title>Configurar Parámetros</title> <!-- Page title displayed in the browser tab -->
+    <!-- Link to the base stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
 </head>
 <body>
+    <!-- Main heading of page -->
     <h1>Configurar Parámetros</h1>
+
+    <!-- Form for configuring parameters -->
     <form method="post">
+        <!-- Input for maximum number of words -->
         <label for="MAX_DATA_LEN">Número máximo de palabras:</label>
         <input type="number" id="MAX_DATA_LEN" name="MAX_DATA_LEN" value="{{ config['MAX_DATA_LEN'] }}" required>
         <br>
+        <!-- Input for batch size -->
         <label for="BATCH_SIZE">Tamaño de lote:</label>
         <input type="number" id="BATCH_SIZE" name="BATCH_SIZE" value="{{ config['BATCH_SIZE'] }}" required>
         <br>
+        <!-- Input for number of epochs -->
         <label for="EPOCHS">Número de épocas (iteraciones):</label>
         <input type="number" id="EPOCHS" name="EPOCHS" value="{{ config['EPOCHS'] }}" required>
         <br>
+        <!-- Input for number of parallel processes -->
         <label for="DATALOADER_NUM_WORKERS">Número de procesos paralelos:</label>
         <input type="number" id="DATALOADER_NUM_WORKERS" name="DATALOADER_NUM_WORKERS" value="{{ config['DATALOADER_NUM_WORKERS'] }}" required>
         <br>
+        <!-- Input for dropout rate for BERT -->
         <label for="DROP_OUT_BERT">Tanto por uno de drop out para BERT:</label>
         <input type="number" step="0.01" id="DROP_OUT_BERT" name="DROP_OUT_BERT" value="{{ config['DROP_OUT_BERT'] }}" required>
         <br>
+        <!-- Checkbox for transfer learning option -->
         <label for="TRANSFER_LEARNING">¿Entrenar únicamente las nuevas capas?</label>
         <input type="checkbox" id="TRANSFER_LEARNING" name="TRANSFER_LEARNING" {% if config['TRANSFER_LEARNING'] %}checked{% endif %}>
         <br>
+        <!-- Button to submit form -->
         <button type="submit">Guardar Cambios</button>
     </form>
+
+    <!-- Navigation link to return to main menu -->
     <ul>
-        <li><a href="/">Regresar al Menú de Acciones</a></li>
+        <li><a href="/" class="back-button">Volver al Menú Principal</a></li>
     </ul>
+
+    <!-- Footer section -->
+    <footer class="footer">
+        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
+    </footer>
 </body>
 </html>

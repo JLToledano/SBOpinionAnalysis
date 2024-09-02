@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
+    <title>Usar Modelo Preentrenado</title> <!-- Page title displayed in the browser tab -->
+
+    <!-- Link to the base stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
+    <!-- Link to the model-specific stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/model.css') }}">
+
+    <!-- Inline JavaScript to handle classification form submission -->
+    <script>
+        function classifyText(event) {
+            event.preventDefault();  // Prevent form from submitting traditional way
+
+            // Get values from form fields
+            const text = document.getElementById("text").value;
+            const modelFile = document.getElementById("model_file").value;
+            const technology = document.getElementById("technology").value;
+
+            // Send data to the classify_text endpoint via POST request
+            fetch('{{ url_for("model.classify_text") }}', {  // Updated endpoint to "model.classify_text"
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'  // Specify the content type as JSON
+                },
+                body: JSON.stringify({
+                    text: text,  // Include text input in request body
+                    model_file: modelFile,  // Include selected model file in request body
+                    technology: technology  // Include selected technology in request body
+                })
+            })
+            .then(response => response.json())  // Parse the JSON response
+            .then(data => {
+                // Display the classification result in the result div
+                document.getElementById("result").innerText = "Resultado de la clasificación: " + data.classification;
+            })
+            .catch(error => {
+                // Display any errors that occur
+                document.getElementById("result").innerText = "Ocurrió un error: " + error;
+            });
+        }
+    </script> 
+</head>
+<body>
+    <!-- Header section with main title -->
+    <header class="header">
+        <h1>Usar Modelo Preentrenado</h1> <!-- Main heading of page -->
+    </header>
+    
+    <!-- Main container for page content -->
+    <div class="container">
+        <!-- Form for model classification -->
+        <form id="classificationForm" onsubmit="classifyText(event)">
+            <div class="form-group">
+                <label for="model_file">Seleccione un Modelo</label> <!-- Label for model file selection -->
+                <select id="model_file" name="model_file">
+                    {% for model_file in model_files %}
+                    <option value="{{ model_file }}">{{ model_file }}</option> <!-- Dropdown options for available model files -->
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="technology">Seleccione la Tecnología</label> <!-- Label for technology selection -->
+                <select id="technology" name="technology">
+                    <option value="bert">BERT</option> <!-- Option for BERT technology -->
+                    <option value="albert">ALBERT</option> <!-- Option for ALBERT technology -->
+                    <option value="roberta">RoBERTa</option> <!-- Option for RoBERTa technology -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="text">Texto a Clasificar</label> <!-- Label for text input area -->
+                <textarea id="text" name="text" rows="4" placeholder="Ingrese el texto en inglés aquí..."></textarea>
+            </div>
+            <button type="submit" class="button">Clasificar</button> <!-- Submit button to classify text -->
+        </form>
+
+        <!-- Div to display the result of classification -->
+        <div id="result" class="form-group">
+            <!-- The classification result will be displayed here -->
+        </div>
+
+        <!-- Link to return to main menu -->
+        <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>
+    </div>
+
+    <!-- Footer section -->
+    <footer class="footer">
+        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
+    </footer>
+</body>
+</html>

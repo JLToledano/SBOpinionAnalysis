@@ -1,39 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Principal</title>
+    <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
+    <title>Menú Principal</title> <!-- Page title displayed in the browser tab -->
+    <!-- Link to the base stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
+    <!-- Link to the menu-specific stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/menu.css') }}">
 </head>
 <body>
+    <!-- Header section with main title -->
     <header class="header">
-        <h1>Menú Principal</h1>
+        <h1>Menú Principal</h1> <!-- Main heading of the page -->
     </header>
+    
+    <!-- Navigation bar with links to different sections -->
     <nav class="navbar">
         <ul>
-            <li><a href="/configure">Configurar Parámetros</a></li>
-            <li><a href="/dataset">Configurar Dataset</a></li>
+            <li><a href="/model">Usar Modelo</a></li> <!-- Link to use a pre-trained model -->
+            <li><a href="/train_model">Entrenar Modelo</a></li> <!-- Link to train a new model -->
+            <li><a href="{{ url_for('main.evaluate_model') }}">Evaluar Modelo</a></li> <!-- Link to evaluate an existing model -->
+            <li><a href="/dataset">Configurar Dataset</a></li> <!-- Link to configure the dataset -->
+            <li><a href="/configure">Configurar Parámetros</a></li> <!-- Link to configure application parameters -->
+            <li><a href="/help">Ayuda</a></li> <!-- Link to help section -->
         </ul>
     </nav>
+    
+    <!-- Main container for page content -->
     <div class="container">
         <div class="main-content">
+            <!-- Card for using a model -->
+            <div class="card">
+                <h2>Usar Modelo</h2>
+                <p>Clasifique un texto utilizando un modelo preentrenado.</p>
+                <a href="/model" class="button">Ir a Modelo</a>
+            </div>
+            <!-- Card for training a model -->
+            <div class="card">
+                <h2>Entrenar Modelo</h2>
+                <p>Entrena un modelo con el dataset actual.</p>
+                <a href="/train_model" class="button">Ir a Entrenamiento</a>
+            </div>
+            <!-- Card for evaluating a model -->
+            <div class="card">
+                <h2>Evaluar Modelo</h2>
+                <p>Evalúa un modelo entrenado con el dataset de validación.</p>
+                <a href="{{ url_for('main.evaluate_model') }}" class="button">Ir a Evaluar</a>
+            </div>  
+            <!-- Card for configuring application parameters -->
             <div class="card">
                 <h2>Configurar Parámetros</h2>
                 <p>Configure los parámetros de la aplicación.</p>
                 <a href="/configure" class="button">Ir a Configuración</a>
             </div>
+            <!-- Card for configuring dataset -->
             <div class="card">
                 <h2>Configurar Dataset</h2>
                 <p>Configure el nombre del dataset.</p>
                 <a href="/dataset" class="button">Ir a Dataset</a>
             </div>
+            <!-- Card for accessing help section -->
+            <div class="card">
+                <h2>Ayuda</h2>
+                <p>Obtenga ayuda sobre cómo utilizar la aplicación.</p>
+                <a href="/help" class="button">Ir a Ayuda</a>
+            </div>
         </div>
     </div>
+    
+    <!-- Footer section -->
     <footer class="footer">
-        <p>&copy; 2024 SBOpinionAnalysis</p>
+        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
     </footer>
+
+    <!-- Block for displaying flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="flash {{ category }}">{{ message }}</li> <!-- Display each flash message with its category -->
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
