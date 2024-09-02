@@ -51,7 +51,25 @@ def CLI_model_selector(configuration):
     model_configuration = eval(pre_trained_model_configurations[selected_option])
 
     return model_configuration
-    
+
+def GUI_model_selector(configuration, technology):
+    """
+    Selecciona y configura el modelo basado en la tecnología seleccionada desde la interfaz web.
+    :param configuration: Configuración general del modelo
+    :type: dict[String:String]
+    :param technology: Tecnología seleccionada por el usuario
+    :type: str
+    :return: Modelo y tokenizador configurado
+    :type: dict[String:MODELSentimentClassifier/Tokenizer]
+    """
+    if technology.upper() == 'BERT':
+        return BERT_configurations(configuration)
+    elif technology.upper() == 'ALBERT':
+        return AlBERT_configurations(configuration)
+    elif technology.upper() == 'ROBERTA':
+        return ROBERTA_configurations(configuration)
+    else:
+        raise ValueError(f'Tecnología {technology} no es soportada.')
 
 
 def BERT_configurations(configuration):

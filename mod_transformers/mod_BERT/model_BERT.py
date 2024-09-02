@@ -13,37 +13,28 @@ class BERTSentimentClassifier(nn.Module):
         """
         Init function of BERTSentimentClassifier class
         :param number_classes: Number of final classification types an input text can have
-        :type: Int
         :param pre_trained_model_name: Name of the selected BERT pre-trained model
-        :type: String
-        :param drop_out: Number per one of neurons that are deactivated in the network
-        :type: Decimal
+        :param drop_out: Number of neurons to deactivate in the network
         :param transfer_learning: Indicates transfer learning application or complete BERT upgrade
-        :type: Boolean
-        :return: Nothing
         """
+        super(BERTSentimentClassifier, self).__init__()
 
-        #Initializer required for the model
-        super(BERTSentimentClassifier,self).__init__()
-
-        #BERT neural network model
+        # BERT neural network model
         self.bert = BertModel.from_pretrained(pre_trained_model_name)
 
-        #Application of transfer learning model BERT
+        # Application of transfer learning model BERT
         if transfer_learning:
             for param in self.bert.parameters():
                 param.requires_grad = False
 
-        #Extra specific layer of neurons to avoid overfitting
-        self.drop = nn.Dropout(p = drop_out)
-        #Extra neuron layer for text classification
+        # Extra specific layer of neurons to avoid overfitting
+        self.drop = nn.Dropout(p=drop_out)
+        # Extra neuron layer for text classification
         self.relu = nn.ReLU()
-        # Linear layer with as many input neurons as BERT network has output neurons
-        # Number of output neurons is equal to one for binary classification
-        self.linear = nn.Linear(self.bert.config.hidden_size, number_classes)
-        #It has as many input neurons as BERT network has output neurons
-        #Number of output neurons is equal to number of possible classifications
-        self.sigmoid = nn.Sigmoid()
+        # Adding an additional linear layer
+        self.linear_1 = nn.Linear(self.bert.config.hidden_size, 128)
+        # Another linear layer for the final output
+        self.linear_2 = nn.Linear(128, number_classes)
 
         #Ensure the newly added layers require gradients
         if transfer_learning:
@@ -51,9 +42,9 @@ class BERTSentimentClassifier(nn.Module):
                 param.requires_grad = True
             for param in self.relu.parameters():
                 param.requires_grad = True
-            for param in self.linear.parameters():
+            for param in self.linear_1.parameters():
                 param.requires_grad = True
-            for param in self.sigmoid.parameters():
+            for param in self.linear_2.parameters():
                 param.requires_grad = True
 
 
@@ -61,32 +52,23 @@ class BERTSentimentClassifier(nn.Module):
         """
         Function needed in Pytorch to specify order of layers
         :param input_ids: Representative identifiers of input data
-        :type: Tensor
         :param attention_mask: Attention mask for transformers technology
-        :type: Tensor
-        :return: Output of complete model
-        :type: Tensor
+        :return: Output of the complete model
         """
-
-        #Encoded input and the encoding of the classification token resulting from passing through BERT layer are obtained
+        # Pass through BERT
         bert_output = self.bert(
-            input_ids = input_ids,
-            attention_mask = attention_mask,
-            return_dict = True
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            return_dict=True
         )
 
-        #Encoding of the classification token is passed as input data of the drop layer
-        #This vector contains all the essence of input data
+        # Apply dropout to the pooled output
         drop_output = self.drop(bert_output['pooler_output'])
+        # Pass through the first linear layer
+        linear_1_output = self.linear_1(drop_output)
+        # Apply ReLU activation
+        relu_output = self.relu(linear_1_output)
+        # Pass through the second linear layer
+        output = self.linear_2(relu_output)
 
-        #Pass through ReLU activation
-        relu_output = self.relu(drop_output)
-
-        #Pass through the linear layer
-        linear_output = self.linear(relu_output)
-
-        #Output vector of drop layer is passed as input data to linear layer and final classification is obtained
-        output = self.sigmoid(linear_output)
-
-        #Final classification calculated by passing through all layers of model is returned
         return output

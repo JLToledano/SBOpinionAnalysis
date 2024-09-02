@@ -34,17 +34,25 @@ class RoBERTaSentimentClassifier(nn.Module):
             for param in self.roberta.parameters():
                 param.requires_grad = False
 
-        #Extra specific layer of neurons to avoid overfitting
-        self.drop = nn.Dropout(p = drop_out)
-        #Extra neuron layer for text classification
+        # Extra specific layer of neurons to avoid overfitting
+        self.drop = nn.Dropout(p=drop_out)
+        # Extra neuron layer for text classification
         self.relu = nn.ReLU()
-        # Linear layer with as many input neurons as BERT network has output neurons
-        # Number of output neurons is equal to one for binary classification
-        self.linear = nn.Linear(self.bert.config.hidden_size, number_classes)
-        #It has as many input neurons as BERT network has output neurons
-        #Number of output neurons is equal to number of possible classifications
-        self.sigmoid = nn.Sigmoid()
+        # Adding an additional linear layer
+        self.linear_1 = nn.Linear(self.roberta.config.hidden_size, 128)
+        # Another linear layer for the final output
+        self.linear_2 = nn.Linear(128, number_classes)
 
+        #Ensure the newly added layers require gradients
+        if transfer_learning:
+            for param in self.drop.parameters():
+                param.requires_grad = True
+            for param in self.relu.parameters():
+                param.requires_grad = True
+            for param in self.linear_1.parameters():
+                param.requires_grad = True
+            for param in self.linear_2.parameters():
+                param.requires_grad = True
 
     def forward(self, input_ids, attention_mask):
         """
@@ -64,15 +72,15 @@ class RoBERTaSentimentClassifier(nn.Module):
             return_dict = True
         )
 
-        #Encoding of the classification token is passed as input data of the drop layer
-        #This vector contains all the essence of input data
-        drop_output = self.drop(roberta_output['pooler_output'])
+        # Use the representation of the [CLS] token from last_hidden_state
+        cls_output = roberta_output['last_hidden_state'][:, 0, :]
+        # Pass the [CLS] representation through the dropout layer
+        drop_output = self.drop(cls_output)
+        # Pass through the first linear layer
+        linear_1_output = self.linear_1(drop_output)
+        # Apply ReLU activation
+        relu_output = self.relu(linear_1_output)
+        # Pass through the second linear layer
+        output = self.linear_2(relu_output)
 
-        #Pass through ReLU activation
-        relu_output = self.relu(drop_output)
-
-        #Output vector of drop layer is passed as input data to linear layer and final classification is obtained
-        output = self.sigmoid(relu_output)
-
-        #Final classification calculated by passing through all layers of model is returned
         return output
