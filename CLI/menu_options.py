@@ -105,7 +105,7 @@ def data_loader(dataset,tokenizer,max_len,batch_size,num_workers):
     return DataLoader(dataset, batch_size=batch_size, num_workers=num_workers)
 
 
-def training_model_scratch(configuration_main, device, train_dataset):
+def training_model_scratch(configuration_main, device, train_dataset, test_dataset):
     """
     The pre-training model and the additional layers added are trained
     :param configuration_main: Training configurations
@@ -113,6 +113,8 @@ def training_model_scratch(configuration_main, device, train_dataset):
     :param device: Calculation optimizer
     :type: Torch Device
     :param train_dataset: Dataset with data for training
+    :type: Dataset
+    :param test_dataset: Dataset with data for evaluating
     :type: Dataset
     :return: Nothing
     """
@@ -126,11 +128,17 @@ def training_model_scratch(configuration_main, device, train_dataset):
     #Creation of Pytorch dataset for training
     train_data_loader = data_loader(train_dataset,tokenizer,configuration_main['MAX_DATA_LEN'],configuration_main['BATCH_SIZE'],configuration_main['DATALOADER_NUM_WORKERS'])
 
+    #Creation of Pytorch dataset for evaluating
+    test_data_loader = data_loader(test_dataset,tokenizer,configuration_main['MAX_DATA_LEN'],configuration_main['BATCH_SIZE'],configuration_main['DATALOADER_NUM_WORKERS'])
+
     #Model is taken to the GPU if available
     model = model.to(device)
 
     #Optimizer is created and a learning rate lr is assigned.
-    optimizer = AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=2e-5)
+    if model_configuration['name_model'] == 'RoBERTa':
+        optimizer = AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=5e-4, weight_decay=0.0)
+    else:
+        optimizer = AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=1e-4, weight_decay=0.0)
 
     #Total number of training iterations
     total_steps = len(train_data_loader) * configuration_main['EPOCHS']
@@ -143,7 +151,7 @@ def training_model_scratch(configuration_main, device, train_dataset):
     )
 
     #Error function to be minimized
-    loss_fn = nn.BCELoss().to(device)
+    loss_fn = nn.BCEWithLogitsLoss()
     
     #For each epoch, the model is trained.
     for epoch in range(configuration_main['EPOCHS']):
@@ -154,6 +162,9 @@ def training_model_scratch(configuration_main, device, train_dataset):
         model, optimizer, scheduler = train_model(
             model, train_data_loader, loss_fn, optimizer, device, scheduler, name_model
         )
+
+        #Model validated
+        eval_model(model, test_data_loader, device)
     
     #Trained model is stored
     save_model(model)

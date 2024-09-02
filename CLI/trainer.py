@@ -64,6 +64,7 @@ def train_model(model, data_loader, loss_fn, optimizer, device, scheduler, name_
             attention_mask = batch['attention_mask'].to(device)
             #Labels are extracted from batch data and sent to GPU to speed up training
             labels = batch['text_clasification'].to(device).unsqueeze(1)
+            labels = labels.view(-1, 1)
             #Model outputs are computed
             outputs = model(input_ids = input_ids, attention_mask = attention_mask)
 
@@ -71,7 +72,7 @@ def train_model(model, data_loader, loss_fn, optimizer, device, scheduler, name_
             if name_model != 'DistilBERT':
                 #Predictions are calculated
                 #If first one is the maximum, change, if second one is the maximum, non-change
-                preds = (outputs >= 0.5).long()
+                preds = (outputs >= 0).float()
 
                 #Labels is added to labels tensor
                 tensor_labels = torch.cat((tensor_labels,labels))
@@ -82,10 +83,11 @@ def train_model(model, data_loader, loss_fn, optimizer, device, scheduler, name_
                 loss = loss_fn(outputs, labels)
                 #Error is back-propagated
                 loss.backward()
+
             else:
                 #Predictions are calculated. Maximum of 2 outputs is taken
                 #If first one is the maximum, change, if second one is the maximum, non-change
-                _, preds = torch.max(outputs, dim = 1)
+                preds = (outputs >= 0).float()
 
                 #Labels is added to labels tensor
                 tensor_labels = torch.cat((tensor_labels,labels))
@@ -166,8 +168,8 @@ def eval_model(model, data_loader,device):
                 #Model outputs are computed
                 outputs = model(input_ids = input_ids, attention_mask = attention_mask)
                 #Predictions are calculated (in this case or performed by BERT).Maximum of 2 outputs is taken
-                #If first one is the maximum, suicide, if second one is the maximum, non-suicide.
-                _, preds = torch.max(outputs, dim = 1)
+                #If first one is the maximum, change, if second one is the maximum, non-change.
+                preds = (outputs >= 0).float().view(-1)
 
                 #Labels is added to labels tensor
                 tensor_labels = torch.cat((tensor_labels,labels))
