@@ -1,38 +1,73 @@
 .navbar {
-    background-color: var(--primary-color);
-    padding: 10px;
+    background-color: var(--primary-color); /* Background color for navigation bar */
+    padding: 10px; /* Padding inside navigation bar */
 }
 
 .navbar ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
+    list-style: none; /* Remove default bullet points from list */
+    display: flex; /* Use flexbox layout for list items */
+    justify-content: space-around; /* Distribute list items evenly across navbar */
 }
 
 .navbar ul li {
-    margin: 0 10px;
+    margin: 0 10px; /* Horizontal margin between list items */
 }
 
 .navbar ul li a {
-    color: var(--secondary-color);
-    text-decoration: none;
-    font-weight: bold;
+    color: var(--secondary-color); /* Text color for links */
+    text-decoration: none; /* Remove underline from links */
+    font-weight: bold; /* Make link text bold */
 }
 
 .navbar ul li a:hover {
-    text-decoration: underline;
+    text-decoration: underline; /* Underline links on hover */
 }
 
 .button {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-    border: none;
-    border-radius: 4px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1rem;
+    background-color: var(--primary-color); /* Background color for buttons */
+    color: var(--secondary-color); /* Text color for buttons */
+    border: none; /* Remove border from buttons */
+    border-radius: 4px; /* Rounded corners for buttons */
+    padding: 10px 20px; /* Padding inside buttons */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    font-size: 1rem; /* Set font size for button text */
 }
 
 .button:hover {
-    background-color: darkgreen;
+    background-color: darkgreen; /* Darken button background on hover */
+}
+
+.metric-container {
+    padding: 20px; /* Padding inside metric container */
+    background-color: #f9f9f9; /* Background color for metric container */
+    border-radius: 8px; /* Rounded corners for metric container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for container */
+    margin-bottom: 20px; /* Space below each metric container */
+}
+
+.metric-container h2 {
+    color: #333; /* Text color for heading */
+    margin-bottom: 15px; /* Space below heading */
+}
+
+.metric-container p {
+    font-size: 1.1rem; /* Font size for paragraph text */
+    margin-bottom: 10px; /* Space below each paragraph */
+}
+
+.metric-container table {
+    width: 100%; /* Table takes full width of container */
+    border-collapse: collapse; /* Merge borders of table cells */
+    margin-top: 10px; /* Space above table */
+}
+
+.metric-container th, .metric-container td {
+    border: 1px solid #ddd; /* Light gray border around table cells */
+    padding: 8px; /* Padding inside table cells */
+    text-align: center; /* Center text inside table cells */
+}
+
+.metric-container th {
+    background-color: #4CAF50; /* Background color for table headers */
+    color: white; /* Text color for table headers */
 }
