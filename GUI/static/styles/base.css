@@ -1,0 +1,37 @@
+:root {
+    /* Define color variables for easy theme customization */
+    --primary-color: #4CAF50; /* Primary color used for headings */
+    --secondary-color: #ffffff; /* Secondary color for text and background */
+    --background-color: #f4f4f4; /* Default background color for the body */
+    --font-color: #333333; /* Default font color */
+    --font-family: 'Arial', sans-serif; /* Default font family */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Ensure padding does not affect element width */
+}
+
+body {
+    font-family: var(--font-family); /* Apply default font family */
+    color: var(--font-color); /* Apply default font color */
+    background-color: var(--background-color); /* Apply default background color */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color); /* Apply primary color to all heading levels */
+}
+
+.flash {
+    padding: 10px; /* Padding inside flash message */
+    margin: 10px 0; /* Vertical margin to separate flash messages */
+    border-radius: 5px; /* Rounded corners for flash messages */
+    font-size: 1rem; /* Set the font size for flash messages */
+}
+
+.flash.info {
+    background-color: #d9edf7; /* Background color for informational flash messages */
+    color: #31708f; /* Text color for informational flash messages */
+    border: 1px solid #bce8f1; /* Border color for informational flash messages */
+}

@@ -1,0 +1,84 @@
+.container {
+    width: 80%; /* Set container width to 80% of the parent element */
+    margin: 0 auto; /* Center container horizontally */
+    padding: 20px; /* Padding inside container */
+}
+
+.header, .footer {
+    background-color: var(--primary-color); /* Background color for header and footer */
+    color: var(--secondary-color); /* Text color for header and footer */
+    text-align: center; /* Center text inside header and footer */
+    padding: 10px 0; /* Vertical padding inside header and footer */
+}
+
+.header h1 {
+    margin: 0; /* Remove default margin for H1 element */
+    font-size: 2.5rem; /* Set the font size for H1 element */
+    font-weight: bold; /* Make H1 text bold */
+}
+
+section {
+    margin-bottom: 30px; /* Space below each section */
+    padding: 20px; /* Padding inside each section */
+    background: var(--secondary-color); /* Background color for sections */
+    border-radius: 8px; /* Rounded corners for sections */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for sections */
+}
+
+section h2 {
+    color: var(--primary-color); /* Text color for H2 elements inside sections */
+    margin-bottom: 10px; /* Space below H2 element */
+}
+
+section p {
+    margin-bottom: 15px; /* Space below each paragraph inside sections */
+    line-height: 1.6; /* Set line height for better readability */
+}
+
+.options {
+    display: flex; /* Use flexbox layout for the options container */
+    flex-direction: column; /* Stack options vertically */
+    gap: 20px; /* Space between each option */
+}
+
+.option h3 {
+    color: var(--primary-color); /* Text color for H3 elements inside options */
+    font-size: 1.5rem; /* Set font size for H3 elements */
+    margin-bottom: 10px; /* Space below H3 element */
+}
+
+.option p {
+    margin-bottom: 10px; /* Space below each paragraph inside options */
+}
+
+table {
+    width: 100%; /* Table takes full width of the container */
+    border-collapse: collapse; /* Merge borders of table cells */
+    margin-top: 10px; /* Space above the table */
+}
+
+table, th, td {
+    border: 1px solid var(--primary-color); /* Border color for table, headers, and cells */
+    padding: 8px; /* Padding inside table cells */
+    text-align: left; /* Align text to the left inside table cells */
+}
+
+th {
+    background-color: var(--primary-color); /* Background color for table headers */
+    color: var(--secondary-color); /* Text color for table headers */
+}
+
+.back-button {
+    display: inline-block; /* Make the back button an inline block element */
+    padding: 10px 20px; /* Padding inside back button */
+    background-color: var(--primary-color); /* Background color for back button */
+    color: var(--secondary-color); /* Text color for back button */
+    border-radius: 4px; /* Rounded corners for back button */
+    text-decoration: none; /* Remove underline from back button */
+    margin-top: 20px; /* Space above back button */
+    text-align: center; /* Center text inside back button */
+}
+
+.back-button:hover {
+    background-color: darkgreen; /* Darken back button background on hover */
+}

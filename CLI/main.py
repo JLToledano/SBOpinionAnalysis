@@ -74,7 +74,7 @@ def main():
     selected_option = 0
     menu_options = {
         '1': "use_classify_model(configuration_main, device)",
-        '2': "training_model_scratch(configuration_main, device, train_dataset)",
+        '2': "training_model_scratch(configuration_main, device, train_dataset, test_dataset)",
         '3': "evaluating_model_pretraining(configuration_main, device, test_dataset)",
         '4': "configuration_main = customize_parameter_configuration(configuration_main)",
         '5': "configuration_main['FILE_DATASET_NAME'] = assign_new_dataset()",

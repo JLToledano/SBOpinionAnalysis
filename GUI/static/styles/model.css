@@ -1,0 +1,53 @@
+.container {
+    width: 60%; /* Set width of container to 60% of its parent */
+    margin: 0 auto; /* Center container horizontally */
+    padding: 20px; /* Add padding inside container */
+    background: var(--secondary-color); /* Set background color of container */
+    border-radius: 8px; /* Round corners of container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to container */
+}
+
+.header, .footer {
+    background-color: var(--primary-color); /* Set background color for header and footer */
+    color: var(--secondary-color); /* Set text color in header and footer */
+    text-align: center; /* Center text in header and footer */
+    padding: 10px 0; /* Add vertical padding inside header and footer */
+}
+
+.header h1 {
+    margin: 0; /* Remove default margin from H1 element */
+    font-size: 2.5rem; /* Set font size for H1 element */
+    font-weight: bold; /* Make H1 text bold */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Add space below each form group */
+}
+
+.form-group label {
+    display: block; /* Make label a block-level element */
+    margin-bottom: 5px; /* Add space below label */
+    font-weight: bold; /* Make label text bold */
+}
+
+.form-group select, .form-group textarea {
+    width: 100%; /* Make select and textarea elements take up 100% of their container's width */
+    padding: 10px; /* Add padding inside select and textarea elements */
+    border-radius: 4px; /* Round corners of select and textarea elements */
+    border: 1px solid var(--primary-color); /* Set border color of select and textarea elements */
+}
+
+.button, .back-button {
+    display: inline-block; /* Make buttons inline block elements */
+    padding: 10px 20px; /* Add padding inside buttons */
+    background-color: var(--primary-color); /* Set background color of buttons */
+    color: var(--secondary-color); /* Set text color of buttons */
+    border-radius: 4px; /* Round corners of buttons */
+    text-decoration: none; /* Remove underline from button text */
+    margin-top: 20px; /* Add space above buttons */
+    text-align: center; /* Center the text inside buttons */
+}
+
+.button:hover, .back-button:hover {
+    background-color: darkgreen; /* Change the background color of buttons on hover */
+}
