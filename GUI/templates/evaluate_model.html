@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
+    <title>Evaluar Modelo</title> <!-- Page title displayed in the browser tab -->
+    <!-- Link to the base stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
+</head>
+<body>
+    <!-- Header section with main title -->
+    <header class="header">
+        <h1>Evaluar Modelo</h1> <!-- Main heading of the page -->
+    </header>
+    
+    <!-- Main container for the page content -->
+    <div class="container">
+        <!-- Form for selecting model and technology to evaluate -->
+        <form method="POST" action="{{ url_for('main.evaluate_model') }}">
+            <div class="form-group">
+                <!-- Dropdown to select model file -->
+                <label for="model_file">Seleccione un Modelo</label>
+                <select id="model_file" name="model_file">
+                    {% for model_file in model_files %}
+                    <option value="{{ model_file }}">{{ model_file }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <!-- Dropdown to select technology (BERT, ALBERT, RoBERTa) -->
+                <label for="technology">Seleccione la Tecnología</label>
+                <select id="technology" name="technology">
+                    <option value="bert">BERT</option>
+                    <option value="albert">ALBERT</option>
+                    <option value="roberta">RoBERTa</option>
+                </select>
+            </div>
+            <!-- Button to submit form and start evaluation -->
+            <button type="submit" class="button">Evaluar</button>
+        </form>
+        
+        <!-- Link to return to the main menu -->
+        <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>
+    </div>
+
+    <!-- Footer section -->
+    <footer class="footer">
+        <p>&copy; 2024 My Flask App</p> <!-- Copyright notice -->
+    </footer>
+</body>
+</html>

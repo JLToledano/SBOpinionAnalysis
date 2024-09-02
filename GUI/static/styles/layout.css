@@ -1,0 +1,84 @@
+.container {
+    width: 80%; /* Set the width of container to 80% of its parent */
+    margin: 0 auto; /* Center container horizontally */
+    padding: 20px; /* Add padding inside container */
+}
+
+.header, .footer {
+    background-color: var(--primary-color); /* Set background color of header and footer */
+    color: var(--secondary-color); /* Set text color in header and footer */
+    text-align: center; /* Center text in header and footer */
+    padding: 10px 0; /* Add vertical padding inside header and footer */
+}
+
+.header h1 {
+    margin: 0; /* Remove default margin from H1 element */
+    font-size: 2.5rem; /* Set font size for H1 element */
+    font-weight: bold; /* Make H1 text bold */
+}
+
+section {
+    margin-bottom: 30px; /* Add space below each section */
+    padding: 20px; /* Add padding inside each section */
+    background: var(--secondary-color); /* Set background color of sections */
+    border-radius: 8px; /* Round corners of sections */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to sections */
+}
+
+section h2 {
+    color: var(--primary-color); /* Set text color of H2 elements inside sections */
+    margin-bottom: 10px; /* Add space below the H2 element */
+}
+
+section p {
+    margin-bottom: 15px; /* Add space below each paragraph inside sections */
+    line-height: 1.6; /* Set line height for better readability */
+}
+
+.options {
+    display: flex; /* Use flexbox layout for options container */
+    flex-direction: column; /* Arrange options in a vertical column */
+    gap: 20px; /* Add space between each option */
+}
+
+.option h3 {
+    color: var(--primary-color); /* Set text color of H3 elements inside options */
+    font-size: 1.5rem; /* Set font size for H3 elements */
+    margin-bottom: 10px; /* Add space below H3 element */
+}
+
+.option p {
+    margin-bottom: 10px; /* Add space below each paragraph inside options */
+}
+
+table {
+    width: 100%; /* Make the table take up 100% of its container's width */
+    border-collapse: collapse; /* Collapse borders to make a single border between cells */
+    margin-top: 10px; /* Add space above table */
+}
+
+table, th, td {
+    border: 1px solid var(--primary-color); /* Set border color for table, headers, and cells */
+    padding: 8px; /* Add padding inside table cells */
+    text-align: left; /* Align text to left inside table cells */
+}
+
+th {
+    background-color: var(--primary-color); /* Set background color of table headers */
+    color: var(--secondary-color); /* Set text color of table headers */
+}
+
+.back-button {
+    display: inline-block; /* Make back button an inline block element */
+    padding: 10px 20px; /* Add padding inside back button */
+    background-color: var(--primary-color); /* Set the background color of back button */
+    color: var(--secondary-color); /* Set text color of the back button */
+    border-radius: 4px; /* Round corners of back button */
+    text-decoration: none; /* Remove underline from back button */
+    margin-top: 20px; /* Add space above back button */
+    text-align: center; /* Center text inside back button */
+}
+
+.back-button:hover {
+    background-color: darkgreen; /* Change background color of back button on hover */
+}

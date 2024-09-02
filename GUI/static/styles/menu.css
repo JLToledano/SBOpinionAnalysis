@@ -1,0 +1,53 @@
+.container {
+    width: 80%; /* Set width of the container to 80% of its parent */
+    margin: 0 auto; /* Center container horizontally */
+    padding: 20px; /* Add padding inside container */
+}
+
+.header, .footer {
+    background-color: var(--primary-color); /* Set background color for header and footer */
+    color: var(--secondary-color); /* Set text color in header and footer */
+    text-align: center; /* Center text in header and footer */
+    padding: 10px 0; /* Add vertical padding inside header and footer */
+}
+
+.main-content {
+    display: flex; /* Use flexbox layout for main content */
+    flex-wrap: wrap; /* Allow items to wrap to next line if necessary */
+    gap: 20px; /* Add space between items in main content */
+    margin-top: 20px; /* Add space above main content */
+}
+
+.card {
+    background-color: var(--secondary-color); /* Set background color of cards */
+    border: 1px solid var(--primary-color); /* Set border color of cards */
+    border-radius: 8px; /* Round corners of cards */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to cards */
+    padding: 20px; /* Add padding inside cards */
+    width: calc(33.333% - 20px); /* Set width of cards, taking into account gap */
+    margin-bottom: 20px; /* Add space below each card */
+}
+
+.card h2 {
+    margin-bottom: 10px; /* Add space below the H2 element inside cards */
+}
+
+.card p {
+    margin-bottom: 20px; /* Add space below the paragraph inside cards */
+}
+
+.button {
+    display: inline-block; /* Make the button an inline block element */
+    padding: 10px 15px; /* Add padding inside button */
+    font-size: 1rem; /* Set font size for button */
+    border-radius: 4px; /* Round corners of button */
+    background-color: var(--primary-color); /* Set background color of button */
+    color: var(--secondary-color); /* Set text color of button */
+    text-decoration: none; /* Remove underline from button text */
+    text-align: center; /* Center text inside button */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.button:hover {
+    background-color: darkgreen; /* Change background color of button on hover */
+}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
+    <title>Ayuda</title> <!-- Page title displayed in the browser tab -->
+    <!-- Link to the base stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
+    <!-- Link to the help-specific stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/help.css') }}">
+</head>
+<body>
+    <!-- Header section with main title -->
+    <header class="header">
+        <h1>Ayuda</h1> <!-- Main heading of the page -->
+    </header>
+
+    <!-- Main container for page content -->
+    <div class="container">
+        <!-- Introduction section -->
+        <section class="intro">
+            <h2>Bienvenido a la aplicación</h2>
+            <p>Gracias a esta herramienta podrás utilizar modelos de Inteligencia Artificial para analizar las opiniones de usuario de un Smart Building.</p>
+        </section>
+        
+        <!-- Warning section -->
+        <section class="warning">
+            <h2>Advertencia</h2>
+            <p>Los resultados que pueda reflejar esta aplicación solamente deben ser tomados en consideración por especialistas técnicos junto con pruebas externas que reflejen si es necesario tomar la opinión en consideración.</p>
+        </section>
+        
+        <!-- Options section -->
+        <section class="options">
+            <h2>Opciones del Menú</h2>
+            
+            <!-- Option 1: Using a pre-trained model -->
+            <div class="option">
+                <h3>Opción 1: Utilizar modelo preentrenado</h3>
+                <p>En esta opción se podrá elegir una de las redes neuronales pre-entrenadas disponibles en la aplicación. Después de efectuar la elección, se pedirá un texto que deberá escribirse en inglés y el cuál representa un mensaje que será analizado por la red neuronal. El resultado del análisis reflejará si el mensaje tiene señales de que las condiciones del edificio deben de ser modificadas o no.</p>
+            </div>
+            
+            <!-- Option 2: Training a model -->
+            <div class="option">
+                <h3>Opción 2: Entrenar modelo</h3>
+                <p>En esta opción se podrá elegir una base pre-entrenada como modelo de red neuronal a la que se le añaden capas extras para su adaptación al uso dado en esta aplicación. Después de la elección se entrenará el modelo con el dataset proporcionado y se almacenará el modelo entrenado en un fichero con el nombre especificado por el usuario para su posible uso posterior.</p>
+                <p>Por defecto el dataset proporcionado contiene datos que se destinarán a entrenamiento y datos que se destinarán a evaluación.</p>
+            </div>
+            
+            <!-- Option 3: Evaluating a model -->
+            <div class="option">
+                <h3>Opción 3: Evaluar modelo</h3>
+                <p>En esta opción se podrá elegir un modelo pre-entrenado disponible en la aplicación para evaluar su rendimiento con el dataset de datos proporcionado.</p>
+                <p>Por defecto el dataset proporcionado contiene datos que se destinarán a entrenamiento y datos que se destinarán a evaluación.</p>
+            </div>
+            
+            <!-- Option 4: Customizing parameter configuration -->
+            <div class="option">
+                <h3>Opción 4: Personalizar configuración de parámetros</h3>
+                <p>En esta opción el usuario podrá cambiar la configuración inicial de los parámetros de división del dataset de datos, entrenamiento y evaluación.</p>
+                <p>Los cambios realizados perduran mientras se esté ejecutando la aplicación. El reinicio de esta significa el reseteo de los cambios realizados.</p>
+                <p>La configuración inicial es la siguiente:</p>
+                
+                <!-- Table showing default configuration parameters -->
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Valor por defecto</th>
+                            <th>Definición</th>
+                            <th>Consideraciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>MAX_DATA_LEN</td>
+                            <td>200</td>
+                            <td>Número de palabras máximo que admite el modelo neuronal. El resto de palabras se truncan</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>BATCH_SIZE</td>
+                            <td>16</td>
+                            <td>Tamaño de lote. Número de datos que se insertan en la red neuronal cada vez</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>EPOCHS</td>
+                            <td>3</td>
+                            <td>Número de épocas (iteraciones)</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>DATALOADER_NUM_WORKERS</td>
+                            <td>1</td>
+                            <td>Número de procesos que se ejecutan en paralelo. Se analizan X datos en paralelo</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>TRANSFER_LEARNING</td>
+                            <td>True</td>
+                            <td>Indicación de si se aprovechan los conocimientos de la tecnología base o se entrena el modelo completo</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>DROP_OUT_BERT</td>
+                            <td>0.3</td>
+                            <td>Tanto por uno de neuronas que se desactivan aleatoriamente en una de las capas de la red neuronal</td>
+                            <td>APLICABLE EN BERT</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Option 5: Customizing dataset file -->
+            <div class="option">
+                <h3>Opción 5: Personalizar fichero dataset</h3>
+                <p>En esta opción el usuario puede cambiar la ruta predefinida del dataset para utilizar uno configurado por el usuario pero que esté situado en el mismo directorio destinado a datasets de la aplicación.</p>
+                <p>La extensión del archivo deberá ser .csv y con el siguiente formato de mensajes:</p>
+                <p>"Texto a analizar entre comillas dobles",clasificación</p>
+                <p>La clasificación deberá ser: Change o Non-Change. El texto a analizar puede tener varios párrafos separados por retorno de carro.</p>
+            </div>
+            
+            <!-- Option 6: Viewing help -->
+            <div class="option">
+                <h3>Opción 6: Ayuda</h3>
+                <p>Con esta opción se imprime por pantalla la guía de ayuda al usuario de la aplicación. La guía que se muestra en este momento es la que está disponible.</p>
+                <p>Para más información, acudid a la documentación externa asociada al aplicativo.</p>
+            </div>
+        </section>
+        
+        <!-- Link to return to main menu -->
+        <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>
+    </div>
+
+    <!-- Footer section -->
+    <footer class="footer">
+        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
+    </footer>
+</body>
+</html>
