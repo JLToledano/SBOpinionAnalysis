@@ -163,8 +163,8 @@ def train_model(configuration_main, device, technology, train_dataset, test_data
 
         #Training and updating model parameters
         model.train()
-        tensor_labels = torch.empty(0)
-        tensor_predictions = torch.empty(0)
+        tensor_labels = torch.empty(0, device=device)
+        tensor_predictions = torch.empty(0, device=device)
 
         for batch in train_data_loader:
             input_ids = batch['input_ids'].to(device)
@@ -190,11 +190,11 @@ def train_model(configuration_main, device, technology, train_dataset, test_data
         training_time = end_time - start_time
 
         #Calculate metrics
-        cm = confusion_matrix(tensor_labels, tensor_predictions)
-        accuracy = accuracy_score(tensor_labels, tensor_predictions)
-        recall = recall_score(tensor_labels, tensor_predictions)
-        precision = precision_score(tensor_labels, tensor_predictions)
-        f1 = f1_score(tensor_labels, tensor_predictions)
+        cm = confusion_matrix(tensor_labels.cpu(), tensor_predictions.cpu())
+        accuracy = accuracy_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        recall = recall_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        precision = precision_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        f1 = f1_score(tensor_labels.cpu(), tensor_predictions.cpu())
 
         #Store metrics of this epoch in the list
         epoch_metrics.append({
@@ -270,8 +270,8 @@ def evaluate_model_function(configuration_main, device, technology, model_file, 
     start_time = time.time()
 
     #Evaluate model on test dataset
-    tensor_labels = torch.empty(0)
-    tensor_predictions = torch.empty(0)
+    tensor_labels = torch.empty(0, device=device)
+    tensor_predictions = torch.empty(0, device=device)
 
     model.eval()
     with torch.no_grad():
@@ -291,11 +291,11 @@ def evaluate_model_function(configuration_main, device, technology, model_file, 
     evaluation_time = end_time - start_time
 
     #Calculate evaluation metrics
-    cm = confusion_matrix(tensor_labels, tensor_predictions)
-    accuracy = accuracy_score(tensor_labels, tensor_predictions)
-    recall = recall_score(tensor_labels, tensor_predictions)
-    precision = precision_score(tensor_labels, tensor_predictions)
-    f1 = f1_score(tensor_labels, tensor_predictions)
+    cm = confusion_matrix(tensor_labels.cpu(), tensor_predictions.cpu())
+    accuracy = accuracy_score(tensor_labels.cpu(), tensor_predictions.cpu())
+    recall = recall_score(tensor_labels.cpu(), tensor_predictions.cpu())
+    precision = precision_score(tensor_labels.cpu(), tensor_predictions.cpu())
+    f1 = f1_score(tensor_labels.cpu(), tensor_predictions.cpu())
 
     #Render page with evaluation metrics
     return render_template('evaluation_result.html', 

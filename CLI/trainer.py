@@ -45,9 +45,9 @@ def train_model(model, data_loader, loss_fn, optimizer, device, scheduler, name_
     #The model is put into training mode
     model = model.train()
     #To store value of labels in each iteration
-    tensor_labels = torch.empty(0)
+    tensor_labels = torch.empty(0, device=device)
     #To store value of predictions in each iteration
-    tensor_predictions = torch.empty(0)
+    tensor_predictions = torch.empty(0, device=device)
     
     #Start of training time
     start_time_training = time.time()
@@ -144,9 +144,9 @@ def eval_model(model, data_loader,device):
     #The model is put into evaluating mode
     model = model.eval()
     #To store value of labels in each iteration
-    tensor_labels = torch.empty(0)
+    tensor_labels = torch.empty(0, device=device)
     #To store value of predictions in each iteration
-    tensor_predictions = torch.empty(0)
+    tensor_predictions = torch.empty(0, device=device)
 
     #Start of evaluating time
     start_time_evaluating = time.time()
@@ -202,26 +202,26 @@ def metrics_model(labels, predictions, execution_time):
     """
 
     #Confusion Matrix
-    confusion = confusion_matrix(labels, predictions)
+    confusion = confusion_matrix(labels.cpu(), predictions.cpu())
 
     #Accuracy
     #Return the fraction of correctly classified samples (float)
-    accurancy = accuracy_score(labels, predictions)
+    accurancy = accuracy_score(labels.cpu(), predictions.cpu())
 
     #Recall
     #The recall is the ratio tp / (tp + fn)
     #The recall is intuitively the ability of the classifier to find all the positive samples
-    recall = recall_score(labels, predictions, average="binary", zero_division = 0)
+    recall = recall_score(labels.cpu(), predictions.cpu(), average="binary", zero_division = 0)
 
     #Precision
     #The precision is the ratio tp / (tp + fp)
     #The precision is intuitively the ability of the classifier not to label as positive a sample that is negative
-    precision = precision_score(labels, predictions, average="binary", zero_division = 0)
+    precision = precision_score(labels.cpu(), predictions.cpu(), average="binary", zero_division = 0)
 
     #F1
     #The F1 score can be interpreted as a harmonic mean of the precision and recall, 
     #where an F1 score reaches its best value at 1 and worst score at 0
-    f1 = f1_score(labels, predictions, average="binary", zero_division = 0)
+    f1 = f1_score(labels.cpu(), predictions.cpu(), average="binary", zero_division = 0)
 
     #Printout of template with results
     metrics_menu(confusion, accurancy, recall, precision, f1, execution_time)
