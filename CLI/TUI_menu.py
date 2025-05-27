@@ -150,7 +150,7 @@ def help_menu():
     console = Console(theme = custom_theme)
 
     #Design and printing of welcome message
-    welcome_message= """# Bienvenido a la aplicación. Gracias a esta herramienta podrás utilizar modelos de Inteligencia Artificial para analizar la opiniones de usuario de un Smart Building"""
+    welcome_message= """# Bienvenido a la aplicación. Gracias a esta herramienta podrás utilizar modelos de Inteligencia Artificial para analizar las opiniones de usuario de un Smart Building"""
     welcome_message_markdown = Markdown(welcome_message)
     console.print(welcome_message_markdown)
 
