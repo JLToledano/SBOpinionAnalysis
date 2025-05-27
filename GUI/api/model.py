@@ -20,12 +20,11 @@ def load_model_and_tokenizer(model_path, technology, device):
     :rtype: Tuple[PreTrainedModel, PreTrainedTokenizer]
     """
     if technology == 'bert':
-        tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
     elif technology == 'albert':
         tokenizer = AlbertTokenizer.from_pretrained('albert-base-v2')
     elif technology == 'roberta':
         tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
-        model = RobertaForSequenceClassification.from_pretrained(model_path)
     else:
         raise ValueError(f'Technology {technology} is not supported.')
 
