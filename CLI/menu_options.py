@@ -78,8 +78,7 @@ def load_model(device):
         name_file = models_menu(list_models_files)
 
         #Selected model is loaded
-        model = torch.load(os.path.join(path_models, name_file), map_location=device)
-
+        model = torch.load(os.path.join(path_models, name_file), map_location=device, weights_only=False)
 
     return model
 

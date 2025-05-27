@@ -254,7 +254,7 @@ def evaluate_model_function(configuration_main, device, technology, model_file, 
     :rtype: str
     """
     models_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models_GUI")
-    model_path = os.path.join(models_dir, model_file)
+    model_path = os.path.join(models_dir, model_file, device)
 
     model, tokenizer = load_model_and_tokenizer(model_path, technology)
     model = model.to(device)

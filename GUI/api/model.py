@@ -7,13 +7,15 @@ sys.path.insert(0, './models')
 
 model_bp = Blueprint('model', __name__)
 
-def load_model_and_tokenizer(model_path, technology):
+def load_model_and_tokenizer(model_path, technology, device):
     """
     Load the model and tokenizer based on the specified technology.
     :param model_path: Path to the pre-trained model file
     :type: str
     :param technology: Technology used to train model (bert, albert, roberta)
     :type: str
+    :param device: Calculation optimizer (e.g., GPU or CPU)
+    :type: torch.device
     :return: The loaded model and tokenizer
     :rtype: Tuple[PreTrainedModel, PreTrainedTokenizer]
     """
@@ -28,7 +30,7 @@ def load_model_and_tokenizer(model_path, technology):
         raise ValueError(f'Technology {technology} is not supported.')
 
     #Load the model from the specified path
-    model = torch.load(model_path)
+    model = torch.load(model_path, map_location=device, weights_only=False)
 
     return model, tokenizer
 
@@ -61,11 +63,11 @@ def classify_text():
     models_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "models_GUI")
     model_path = os.path.join(models_dir, model_file)
 
-    #Load the model and tokenizer based on selected technology
-    model, tokenizer = load_model_and_tokenizer(model_path, technology)
-
     #Use computational optimizer if available
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    #Load the model and tokenizer based on selected technology
+    model, tokenizer = load_model_and_tokenizer(model_path, technology, device)
 
     #Encode input data
     encoding_text = tokenizer.encode_plus(
