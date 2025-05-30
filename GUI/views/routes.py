@@ -128,10 +128,11 @@ def display_metrics():
     :return: Rendered metrics page template or redirects to home page if no metrics are found
     :rtype: str
     """
-    epoch_metrics = session.get('epoch_metrics')
+    train_epoch_metrics = session.get('train_epoch_metrics')
+    eval_epoch_metrics = session.get('eval_epoch_metrics')
 
-    if epoch_metrics:
-        return render_template('metrics.html', epoch_metrics=epoch_metrics)
+    if train_epoch_metrics or eval_epoch_metrics:
+        return render_template('metrics.html', train_epoch_metrics=train_epoch_metrics, eval_epoch_metrics=eval_epoch_metrics)
     else:
         flash('No se encontraron métricas para mostrar.', 'warning') # Flash a warning if no metrics are found
         return redirect(url_for('main.index'))
