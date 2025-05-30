@@ -29,7 +29,7 @@ def load_model_and_tokenizer(model_path, technology, device):
         raise ValueError(f'Technology {technology} is not supported.')
 
     #Load the model from the specified path
-    model = torch.load(model_path, map_location=device, weights_only=False)
+    model = torch.load(model_path, map_location=device)
 
     return model, tokenizer
 
