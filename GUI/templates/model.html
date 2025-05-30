@@ -39,6 +39,7 @@
             .then(response => response.json())  // Parse the JSON response
             .then(data => {
                 // Display the classification result in the result div
+                document.getElementById("result-container").style.display = "block";
                 document.getElementById("result").innerText = "Resultado de la clasificación: " + data.classification;
             })
             .catch(error => {
@@ -82,10 +83,14 @@
                 <button type="submit" class="button">Clasificar</button> <!-- Submit button to classify text -->
             </form>
 
-            <!-- Div to display the result of classification -->
-            <div id="result" class="form-group">
-                <!-- The classification result will be displayed here -->
+            <!-- Result display section -->
+            <div id="result-container" class="result-container" style="display:none;">
+                <h2>Resultado</h2>
+                <div id="result" class="result-box">
+                    <!-- The result will appear here -->
+                </div>
             </div>
+
         </section>
         <!-- Link to return to main menu -->
         <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>

@@ -85,10 +85,8 @@ def classify_text():
 
     #Compute the model outputs
     outputs = model(input_ids=input_ids, attention_mask=attention_mask)
-    #Calculate predictions. Take the maximum of 2 outputs
-    #If the first one is the maximum, classify as "Change"; if the second one is the maximum, classify as "Non-Change"
-    _, preds = torch.max(outputs, dim=1)
-
-    result = "Change" if preds else "Non-Change"
+    
+    logit = outputs.squeeze().item()
+    result = "Change" if logit >= 0 else "Non-Change"
 
     return jsonify({'classification': result})
