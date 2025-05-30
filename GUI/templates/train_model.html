@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
@@ -20,28 +20,29 @@
     
     <!-- Main container for page content -->
     <div class="container">
-        <!-- Form for model training -->
-        <form method="POST" action="{{ url_for('main.train_model_view') }}">
-            <!-- Dropdown menu for selecting technology -->
-            <div class="form-group">
-                <label for="technology">Seleccione la Tecnología</label> <!-- Label for technology selection -->
-                <select id="technology" name="technology">
-                    <option value="bert">BERT</option> <!-- Option for BERT technology -->
-                    <option value="albert">ALBERT</option> <!-- Option for ALBERT technology -->
-                    <option value="roberta">RoBERTa</option> <!-- Option for RoBERTa technology -->
-                </select>
-            </div>
-            <!-- Submit button to start training process -->
-            <button type="submit" class="button">Entrenar</button>
-        </form>
-
+        <section>
+            <!-- Form for model training -->
+            <form method="POST" action="{{ url_for('main.train_model_view') }}">
+                <!-- Dropdown menu for selecting technology -->
+                <div class="form-group">
+                    <label for="technology">Seleccione la Tecnología</label> <!-- Label for technology selection -->
+                    <select id="technology" name="technology">                         
+                        <option value="bert">BERT</option> <!-- Option for BERT technology -->
+                        <option value="albert">ALBERT</option> <!-- Option for ALBERT technology -->
+                        <option value="roberta">RoBERTa</option> <!-- Option for RoBERTa technology -->
+                    </select>
+                </div>
+                <!-- Submit button to start training process -->
+                <button type="submit" class="button">Entrenar</button>
+            </form>
+        </section>
         <!-- Link to return to main menu -->
         <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>
     </div>
 
     <!-- Footer section -->
     <footer class="footer">
-        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
+        <p>&copy; 2025 SBOpinionAnalysis</p> <!-- Copyright notice -->
     </footer>
 </body>
 </html>
