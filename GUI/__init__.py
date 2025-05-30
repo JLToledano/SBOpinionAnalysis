@@ -256,14 +256,7 @@ def train_model(configuration_main, device, technology, train_dataset, test_data
     #Temporarily store model in app.config
     current_app.config['trained_model'] = model
 
-    #Prompt for model name after training and save it immediately
-    return render_template_string('''
-        <form method="POST" action="{{ url_for('main.save_model_after_training') }}">
-            <label for="model_name">Model Name:</label>
-            <input type="text" id="model_name" name="model_name" required>
-            <button type="submit">Save Model</button>
-        </form>
-    ''')
+    return model
 
 def save_model(model, model_name):
     """

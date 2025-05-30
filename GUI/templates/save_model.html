@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">  <!-- Set the character encoding to UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- Ensure the page is responsive on all devices -->
+    <title>Guardar Modelo</title> <!-- Page title displayed in the browser tab -->
+    <!-- Link to the base stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>Guardar Modelo</h1>
+    </header>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="flash {{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <section>
+            <form method="POST" action="{{ url_for('main.save_model_after_training') }}">
+                <div class="form-group">
+                    <label for="model_name">Nombre del modelo:</label>
+                    <input type="text" id="model_name" name="model_name" required>
+                </div>
+                <button class="button" type="submit">Guardar Modelo</button>
+            </form>
+            <a class="back-button" href="{{ url_for('main.train_model_view') }}">Volver al entrenamiento</a>
+        </section>
+    </div>
+    <!-- Footer section -->
+    <footer class="footer">
+        <p>&copy; 2025 SBOpinionAnalysis</p> <!-- Copyright notice -->
+    </footer>
+</body>
+</html>

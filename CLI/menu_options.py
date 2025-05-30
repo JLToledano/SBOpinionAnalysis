@@ -243,11 +243,9 @@ def use_classify_model(configuration_main, device):
 
             #Model outputs are computed
             outputs = model(input_ids = input_ids, attention_mask = attention_mask)
-            #Predictions are calculated. Maximum of 2 outputs is taken
-            #If first one is the maximum, Change, if second one is the maximum, Non-Change
-            _, preds = torch.max(outputs, dim = 1)
+            logit = outputs.squeeze().item()
 
-            if preds:
+            if logit >= 0:
                 print("\nClasificación: Change\n")
             else:
                 print("\nClasificación: Non-Change\n")

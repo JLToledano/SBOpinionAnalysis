@@ -115,10 +115,16 @@ def train_model_view():
 
         #Determine training device (GPU or CPU)
         device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        
+
         #Call training function
-        return train_model(configuration_main, device, technology, train_dataset, test_dataset)
-        
+        model = train_model(configuration_main, device, technology, train_dataset, test_dataset)
+
+        #Save trained model temporarily
+        current_app.config['trained_model'] = model
+
+        #Redirect to form to save template
+        return redirect(url_for('main.save_model_form'))
+
     return render_template('train_model.html')
 
 @main_blueprint.route('/display_metrics')
@@ -159,6 +165,10 @@ def save_model_after_training():
 
     #Redirect to display metrics after saving model
     return redirect(url_for('main.display_metrics'))
+
+@main_blueprint.route('/save_model', methods=['GET'])
+def save_model_form():
+    return render_template('save_model.html')
 
 @main_blueprint.route('/evaluate', methods=['GET', 'POST'])
 def evaluate_model():

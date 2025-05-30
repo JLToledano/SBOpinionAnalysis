@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
@@ -39,6 +39,7 @@
             .then(response => response.json())  // Parse the JSON response
             .then(data => {
                 // Display the classification result in the result div
+                document.getElementById("result-container").style.display = "block";
                 document.getElementById("result").innerText = "Resultado de la clasificación: " + data.classification;
             })
             .catch(error => {
@@ -56,43 +57,48 @@
     
     <!-- Main container for page content -->
     <div class="container">
-        <!-- Form for model classification -->
-        <form id="classificationForm" onsubmit="classifyText(event)">
-            <div class="form-group">
-                <label for="model_file">Seleccione un Modelo</label> <!-- Label for model file selection -->
-                <select id="model_file" name="model_file">
-                    {% for model_file in model_files %}
-                    <option value="{{ model_file }}">{{ model_file }}</option> <!-- Dropdown options for available model files -->
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="technology">Seleccione la Tecnología</label> <!-- Label for technology selection -->
-                <select id="technology" name="technology">
-                    <option value="bert">BERT</option> <!-- Option for BERT technology -->
-                    <option value="albert">ALBERT</option> <!-- Option for ALBERT technology -->
-                    <option value="roberta">RoBERTa</option> <!-- Option for RoBERTa technology -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="text">Texto a Clasificar</label> <!-- Label for text input area -->
-                <textarea id="text" name="text" rows="4" placeholder="Ingrese el texto en inglés aquí..."></textarea>
-            </div>
-            <button type="submit" class="button">Clasificar</button> <!-- Submit button to classify text -->
-        </form>
+        <section>
+            <!-- Form for model classification -->
+            <form id="classificationForm" onsubmit="classifyText(event)">
+                <div class="form-group">
+                    <label for="model_file">Seleccione un Modelo</label> <!-- Label for model file selection -->
+                    <select id="model_file" name="model_file">
+                        {% for model_file in model_files %}
+                        <option value="{{ model_file }}">{{ model_file }}</option> <!-- Dropdown options for available model files -->
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="technology">Seleccione la Tecnología</label> <!-- Label for technology selection -->
+                    <select id="technology" name="technology">
+                        <option value="bert">BERT</option> <!-- Option for BERT technology -->
+                        <option value="albert">ALBERT</option> <!-- Option for ALBERT technology -->
+                        <option value="roberta">RoBERTa</option> <!-- Option for RoBERTa technology -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="text">Texto a Clasificar</label> <!-- Label for text input area -->
+                    <textarea id="text" name="text" rows="4" placeholder="Ingrese el texto en inglés aquí..."></textarea>
+                </div>
+                <button type="submit" class="button">Clasificar</button> <!-- Submit button to classify text -->
+            </form>
 
-        <!-- Div to display the result of classification -->
-        <div id="result" class="form-group">
-            <!-- The classification result will be displayed here -->
-        </div>
+            <!-- Result display section -->
+            <div id="result-container" class="result-container" style="display:none;">
+                <h2>Resultado</h2>
+                <div id="result" class="result-box">
+                    <!-- The result will appear here -->
+                </div>
+            </div>
 
+        </section>
         <!-- Link to return to main menu -->
         <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>
     </div>
 
     <!-- Footer section -->
     <footer class="footer">
-        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
+        <p>&copy; 2025 SBOpinionAnalysis</p> <!-- Copyright notice -->
     </footer>
 </body>
 </html>
