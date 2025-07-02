@@ -1,43 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8"> <!-- Set the character encoding to UTF-8 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensure the page is responsive on all devices -->
-    <title>Configurar Dataset</title> <!-- Page title displayed in the browser tab -->
-    <!-- Link to the main stylesheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar Dataset</title>
+
+    <!-- Link to the base stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+    <!-- Link to the layout stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/layout.css') }}">
+    <!-- Link to the components stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/components.css') }}">
 </head>
 <body>
-    <!-- Main heading of page -->
-    <h1>Configurar Dataset</h1>
+    <header class="header">
+        <h1>Configurar Dataset</h1>
+    </header>
+    <div class="container">
+        <section>
+            <form method="POST" action="{{ url_for('main.dataset') }}">
+                <div class="form-group">
+                    <label for="file_name">Nombre del fichero:</label>
+                    <input type="text" id="file_name" name="file_name" value="{{ file_name }}">
+                </div>
+                <button class="button" type="submit">Guardar</button>
+            </form>
+        </section>
 
-    <!-- Form for configuring the dataset -->
-    <form method="POST" action="{{ url_for('main.dataset') }}">
-        <!-- Input field for the dataset file name -->
-        <label for="file_name">Nombre del fichero:</label>
-        <input type="text" id="file_name" name="file_name" value="{{ file_name }}">
-        <!-- Button to submit the form -->
-        <button type="submit">Guardar</button>
-    </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li class="flash info">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <!-- Link to return to the main menu -->
+        <p><a href="{{ url_for('main.index') }}" class="back-button">Volver al Menú Principal</a></p>
+    </div>
 
-    <!-- Link to return to the main menu -->
-    <p><a href="{{ url_for('main.index') }}">Volver al Menú Principal</a></p>
-
-    <!-- Section to display flashed messages -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-            {% for message in messages %}
-                <!-- Display each flashed message as a list item -->
-                <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-
-    <!-- Footer section -->
     <footer class="footer">
-        <p>&copy; 2024 SBOpinionAnalysis</p> <!-- Copyright notice -->
+        <p>&copy; 2025 SBOpinionAnalysis</p>
     </footer>
 </body>
 </html>

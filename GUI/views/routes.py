@@ -115,10 +115,16 @@ def train_model_view():
 
         #Determine training device (GPU or CPU)
         device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-        
+
         #Call training function
-        return train_model(configuration_main, device, technology, train_dataset, test_dataset)
-        
+        model = train_model(configuration_main, device, technology, train_dataset, test_dataset)
+
+        #Save trained model temporarily
+        current_app.config['trained_model'] = model
+
+        #Redirect to form to save template
+        return redirect(url_for('main.save_model_form'))
+
     return render_template('train_model.html')
 
 @main_blueprint.route('/display_metrics')
@@ -128,10 +134,11 @@ def display_metrics():
     :return: Rendered metrics page template or redirects to home page if no metrics are found
     :rtype: str
     """
-    epoch_metrics = session.get('epoch_metrics')
+    train_epoch_metrics = session.get('train_epoch_metrics')
+    eval_epoch_metrics = session.get('eval_epoch_metrics')
 
-    if epoch_metrics:
-        return render_template('metrics.html', epoch_metrics=epoch_metrics)
+    if train_epoch_metrics or eval_epoch_metrics:
+        return render_template('metrics.html', train_epoch_metrics=train_epoch_metrics, eval_epoch_metrics=eval_epoch_metrics)
     else:
         flash('No se encontraron métricas para mostrar.', 'warning') # Flash a warning if no metrics are found
         return redirect(url_for('main.index'))
@@ -158,6 +165,10 @@ def save_model_after_training():
 
     #Redirect to display metrics after saving model
     return redirect(url_for('main.display_metrics'))
+
+@main_blueprint.route('/save_model', methods=['GET'])
+def save_model_form():
+    return render_template('save_model.html')
 
 @main_blueprint.route('/evaluate', methods=['GET', 'POST'])
 def evaluate_model():

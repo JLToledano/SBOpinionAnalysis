@@ -47,9 +47,11 @@ def save_model(model):
     torch.save(model,os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), model_path))
 
 
-def load_model():
+def load_model(device):
     """
     A model pre-trained by the user is loaded
+    :param device: Calculation optimizer
+    :type: Torch Device
     :return: Model
     :type: MODELSentimentClassifier
     """
@@ -76,7 +78,7 @@ def load_model():
         name_file = models_menu(list_models_files)
 
         #Selected model is loaded
-        model = torch.load(os.path.join(path_models, name_file))
+        model = torch.load(os.path.join(path_models, name_file), map_location=device, weights_only=False)
 
     return model
 
@@ -183,7 +185,7 @@ def evaluating_model_pretraining(configuration_main, device, test_dataset):
     """
 
     #Pre-trained Torch model is loaded
-    model = load_model()
+    model = load_model(device)
 
     #If it has been possible to select a model, text is requested and sorted
     if model is not None:
@@ -212,7 +214,7 @@ def use_classify_model(configuration_main, device):
     repeat_process = True
 
     #Pre-trained Torch model is loaded
-    model = load_model()
+    model = load_model(device)
 
     #If it has been possible to select a model, text is requested and sorted
     if model is not None:
@@ -241,11 +243,9 @@ def use_classify_model(configuration_main, device):
 
             #Model outputs are computed
             outputs = model(input_ids = input_ids, attention_mask = attention_mask)
-            #Predictions are calculated. Maximum of 2 outputs is taken
-            #If first one is the maximum, Change, if second one is the maximum, Non-Change
-            _, preds = torch.max(outputs, dim = 1)
+            logit = outputs.squeeze().item()
 
-            if preds:
+            if logit >= 0:
                 print("\nClasificación: Change\n")
             else:
                 print("\nClasificación: Non-Change\n")

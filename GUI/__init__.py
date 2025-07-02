@@ -150,8 +150,10 @@ def train_model(configuration_main, device, technology, train_dataset, test_data
     #Error function to be minimized
     loss_fn = nn.BCEWithLogitsLoss()
 
-    #Initialize list to store metrics for each epoch
-    epoch_metrics = []
+    #Initialize list to store metrics for each train epoch
+    train_epoch_metrics = []
+    #Initialize list to store metrics for each eval epoch
+    eval_epoch_metrics = []
 
     #Training loop
     for epoch in range(configuration_main['EPOCHS']):
@@ -163,8 +165,8 @@ def train_model(configuration_main, device, technology, train_dataset, test_data
 
         #Training and updating model parameters
         model.train()
-        tensor_labels = torch.empty(0)
-        tensor_predictions = torch.empty(0)
+        tensor_labels = torch.empty(0, device=device)
+        tensor_predictions = torch.empty(0, device=device)
 
         for batch in train_data_loader:
             input_ids = batch['input_ids'].to(device)
@@ -190,14 +192,55 @@ def train_model(configuration_main, device, technology, train_dataset, test_data
         training_time = end_time - start_time
 
         #Calculate metrics
-        cm = confusion_matrix(tensor_labels, tensor_predictions)
-        accuracy = accuracy_score(tensor_labels, tensor_predictions)
-        recall = recall_score(tensor_labels, tensor_predictions)
-        precision = precision_score(tensor_labels, tensor_predictions)
-        f1 = f1_score(tensor_labels, tensor_predictions)
+        cm = confusion_matrix(tensor_labels.cpu(), tensor_predictions.cpu())
+        accuracy = accuracy_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        recall = recall_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        precision = precision_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        f1 = f1_score(tensor_labels.cpu(), tensor_predictions.cpu())
 
         #Store metrics of this epoch in the list
-        epoch_metrics.append({
+        train_epoch_metrics.append({
+            'training_time': training_time,
+            'cm': cm.tolist(),  #Convert confusion matrix to list
+            'accuracy': accuracy,
+            'recall': recall,
+            'precision': precision,
+            'f1': f1
+        })
+
+        #Start evaluation time
+        start_time = time.time()
+
+        #Evaluate model on test dataset
+        tensor_labels = torch.empty(0, device=device)
+        tensor_predictions = torch.empty(0, device=device)
+
+        model.eval()
+        with torch.no_grad():
+            for batch in test_data_loader:
+                input_ids = batch['input_ids'].to(device)
+                attention_mask = batch['attention_mask'].to(device)
+                labels = batch['text_clasification'].to(device).unsqueeze(1)
+
+                outputs = model(input_ids=input_ids, attention_mask=attention_mask)
+                preds = (outputs >= 0).float().view(-1)
+
+                tensor_labels = torch.cat((tensor_labels, labels))
+                tensor_predictions = torch.cat((tensor_predictions, preds))
+
+        #End evaluation time
+        end_time = time.time()
+        evaluation_time = end_time - start_time
+
+        #Calculate evaluation metrics
+        cm = confusion_matrix(tensor_labels.cpu(), tensor_predictions.cpu())
+        accuracy = accuracy_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        recall = recall_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        precision = precision_score(tensor_labels.cpu(), tensor_predictions.cpu())
+        f1 = f1_score(tensor_labels.cpu(), tensor_predictions.cpu())
+
+        #Store metrics of this epoch in the list
+        eval_epoch_metrics.append({
             'training_time': training_time,
             'cm': cm.tolist(),  #Convert confusion matrix to list
             'accuracy': accuracy,
@@ -207,19 +250,13 @@ def train_model(configuration_main, device, technology, train_dataset, test_data
         })
         
     #Store metrics in session
-    session['epoch_metrics'] = epoch_metrics
+    session['train_epoch_metrics'] = train_epoch_metrics
+    session['eval_epoch_metrics'] = eval_epoch_metrics
 
     #Temporarily store model in app.config
     current_app.config['trained_model'] = model
 
-    #Prompt for model name after training and save it immediately
-    return render_template_string('''
-        <form method="POST" action="{{ url_for('main.save_model_after_training') }}">
-            <label for="model_name">Model Name:</label>
-            <input type="text" id="model_name" name="model_name" required>
-            <button type="submit">Save Model</button>
-        </form>
-    ''')
+    return model
 
 def save_model(model, model_name):
     """
@@ -256,7 +293,7 @@ def evaluate_model_function(configuration_main, device, technology, model_file, 
     models_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models_GUI")
     model_path = os.path.join(models_dir, model_file)
 
-    model, tokenizer = load_model_and_tokenizer(model_path, technology)
+    model, tokenizer = load_model_and_tokenizer(model_path, technology, device)
     model = model.to(device)
 
     test_data_loader = data_loader(
@@ -270,8 +307,8 @@ def evaluate_model_function(configuration_main, device, technology, model_file, 
     start_time = time.time()
 
     #Evaluate model on test dataset
-    tensor_labels = torch.empty(0)
-    tensor_predictions = torch.empty(0)
+    tensor_labels = torch.empty(0, device=device)
+    tensor_predictions = torch.empty(0, device=device)
 
     model.eval()
     with torch.no_grad():
@@ -291,11 +328,11 @@ def evaluate_model_function(configuration_main, device, technology, model_file, 
     evaluation_time = end_time - start_time
 
     #Calculate evaluation metrics
-    cm = confusion_matrix(tensor_labels, tensor_predictions)
-    accuracy = accuracy_score(tensor_labels, tensor_predictions)
-    recall = recall_score(tensor_labels, tensor_predictions)
-    precision = precision_score(tensor_labels, tensor_predictions)
-    f1 = f1_score(tensor_labels, tensor_predictions)
+    cm = confusion_matrix(tensor_labels.cpu(), tensor_predictions.cpu())
+    accuracy = accuracy_score(tensor_labels.cpu(), tensor_predictions.cpu())
+    recall = recall_score(tensor_labels.cpu(), tensor_predictions.cpu())
+    precision = precision_score(tensor_labels.cpu(), tensor_predictions.cpu())
+    f1 = f1_score(tensor_labels.cpu(), tensor_predictions.cpu())
 
     #Render page with evaluation metrics
     return render_template('evaluation_result.html', 
